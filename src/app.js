@@ -11,13 +11,11 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-const allowedOrigins = ['https://inventory-management-frontend-pi.vercel.app/']; // Sesuaikan dengan URL FE
-const corsOptions = {
-    origin: allowedOrigins,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: "Content-Type, Authorization",
-};
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'https://inventory-management-frontend-pi.vercel.app/', // Ganti dengan URL frontend Anda
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 
 app.get("/", (req, res) => {
