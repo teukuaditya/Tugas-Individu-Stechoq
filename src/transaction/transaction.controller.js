@@ -1,8 +1,9 @@
-let express = require("express");
-let router = express.Router();
-let transactionServices = require("./transaction.services");
-let authorizeJwt = require("../middleware/authorizeJWT");
-let adminAuthorization = require("../middleware/adminAuthorization");
+import express from "express";
+import transactionServices from "./transaction.services.js";
+import authorizeJwt from "../middleware/authorizeJWT.js";
+import adminAuthorization from "../middleware/adminAuthorization.js";
+
+const router = express.Router();
 
 router.post("/borrow", authorizeJwt, async (req, res) => {
   try {
@@ -70,4 +71,4 @@ router.post("/return/:transactionId", authorizeJwt, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

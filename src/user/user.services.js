@@ -1,27 +1,21 @@
-let bcrypt = require("bcrypt");
-let {
-  insertUser,
-  findUsers,
-  findUserById,
-  editUser,
-  deleteUser,
-} = require("./user.repository");
+import bcrypt from "bcrypt";
+import userRepository from "./user.repository.js";
 
 async function createUser(newUserData) {
   let hashedPassword = await bcrypt.hash(newUserData.password, 10);
 
   newUserData.password = hashedPassword;
-  let newUser = await insertUser(newUserData);
+  let newUser = await userRepository.insertUser(newUserData);
   return newUser;
 }
 
 async function getAllUsers() {
-  let users = await findUsers();
+  let users = await userRepository.findUsers();
   return users;
 }
 
 async function getUserById(id) {
-  let user = await findUserById(id);
+  let user = await userRepository.findUserById(id);
   if (!user) {
     throw Error("User not found");
   }
@@ -34,16 +28,16 @@ async function editUserById(id, userData) {
     userData.password = hashedPassword;
   }
   await getUserById(id);
-  let updatedUser = await editUser(id, userData);
+  let updatedUser = await userRepository.editUser(id, userData);
   return updatedUser;
 }
 
 async function deleteUserById(id) {
   await getUserById(id);
-  await deleteUser(id);
+  await userRepository.deleteUser(id);
 }
 
-module.exports = {
+export default {
   createUser,
   getAllUsers,
   getUserById,

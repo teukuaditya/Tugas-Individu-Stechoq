@@ -1,4 +1,4 @@
-let prisma = require("../db");
+import prisma from '../db/index.js'; 
 
 async function insertItem(itemData) {
   let newItem = await prisma.item.create({
@@ -58,7 +58,7 @@ async function updateItemQuantity(itemId, newQuantity) {
   });
 }
 
-module.exports = {
+export default {
   insertItem,
   findItems,
   findItemById,

@@ -1,4 +1,4 @@
-let prisma = require("../db");
+import prisma from '../db/index.js'; 
 
 async function insertUser(userData) {
   let newUser = await prisma.user.create({
@@ -64,4 +64,4 @@ async function deleteUser(id) {
   });
 }
 
-module.exports = { insertUser, findUsers, findUserById, editUser, deleteUser };
+export default { insertUser, findUsers, findUserById, editUser, deleteUser };

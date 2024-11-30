@@ -1,20 +1,21 @@
-let express = require("express");
-let cors = require("cors");
-let app = express();
-let dotenv = require("dotenv");
-let adminAuthorization = require("./middleware/adminAuthorization");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import adminAuthorization from "./middleware/adminAuthorization.js"; 
+import authController from "./auth/auth.controller.js";
+import userController from "./user/user.controller.js";
+import itemController from "./item/item.controller.js";  
+import transactionController from "./transaction/transaction.controller.js";  
 dotenv.config();
+
+const app = express();
 
 app.use(express.json());
 app.use(cors());
+
 app.get("/", (req, res) => {
   res.send("Hello there!");
 });
-
-let authController = require("./auth/auth.controller");
-let userController = require("./user/user.controller");
-let itemController = require("./item/item.controller");
-let transactionController = require("./transaction/transaction.controller");
 
 app.use("/api/auth", authController);
 app.use("/api/users", adminAuthorization, userController);

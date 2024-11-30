@@ -1,4 +1,4 @@
-let jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 let authorizeAdmin = (req, res, next) => {
   let authHeader = req.headers.authorization;
@@ -27,4 +27,4 @@ let authorizeAdmin = (req, res, next) => {
   }
 };
 
-module.exports = authorizeAdmin;
+export default authorizeAdmin;

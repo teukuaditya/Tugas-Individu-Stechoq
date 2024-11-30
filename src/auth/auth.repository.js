@@ -1,4 +1,4 @@
-let prisma = require('../db');
+import prisma from '../db/index.js'; 
 
 class UserExistsError extends Error {
     constructor(message) {
@@ -51,6 +51,7 @@ async function createUser(userData) {
         throw new Error('Database error: ' + error.message);
     }
 }
+
 async function findUserByUsername(username) {
     return prisma.user.findUnique({ 
         where: { username },
@@ -63,8 +64,5 @@ async function findUserByUsername(username) {
         }
     });
 }
-module.exports = {
-    createUser, 
-    findUserByUsername,
-    UserExistsError
-};
+
+export { createUser, findUserByUsername, UserExistsError };

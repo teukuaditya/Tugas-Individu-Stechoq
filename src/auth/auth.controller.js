@@ -1,6 +1,6 @@
-let express = require('express');
+import express from 'express';
 let router = express.Router();
-let authServices = require('./auth.services');
+import authServices from './auth.services.js';
 
 router.post('/register', async (req, res, next) => {
     let { username, email, password } = req.body;
@@ -30,4 +30,4 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
-module.exports = router;
+export default router;

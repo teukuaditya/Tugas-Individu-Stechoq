@@ -1,6 +1,7 @@
-let express = require("express");
-let router = express.Router();
-let userService = require("./user.services");
+import express from "express";
+import userService from "./user.services.js";
+
+const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
@@ -40,7 +41,7 @@ router.patch("/:id", async (req, res) => {
     delete updatedUser.password;
     res
       .status(200)
-      .send({ data: updatedUser, message: "User updated succesfully!" });
+      .send({ data: updatedUser, message: "User updated successfully!" });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -56,4 +57,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

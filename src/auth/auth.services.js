@@ -1,6 +1,6 @@
-let jwt = require("jsonwebtoken");
-let bcrypt = require("bcrypt");
-let userRepository = require("./auth.repository");
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { createUser, findUserByUsername, UserExistsError } from './auth.repository.js';
 
 function generateToken(user) {
   return jwt.sign(
@@ -11,7 +11,7 @@ function generateToken(user) {
       role: user.role,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "1h" }
+    { expiresIn: '1h' }
   );
 }
 
@@ -20,16 +20,16 @@ async function register(username, email, password) {
     // Validasi input
     if (
       !username ||
-      typeof username !== "string" ||
+      typeof username !== 'string' ||
       username.trim().length < 3
     ) {
-      throw new Error("Username must be at least 3 characters long");
+      throw new Error('Username must be at least 3 characters long');
     }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      throw new Error("Invalid email format");
+      throw new Error('Invalid email format');
     }
     if (!password || password.length < 6) {
-      throw new Error("Password must be at least 6 characters long");
+      throw new Error('Password must be at least 6 characters long');
     }
 
     let hashedPassword = await bcrypt.hash(password, 10);
@@ -37,40 +37,40 @@ async function register(username, email, password) {
       username,
       email,
       password: hashedPassword,
-      role: "USER",
+      role: 'USER',
     };
 
-    let newUser = await userRepository.createUser(user);
+    let newUser = await createUser(user);
     return newUser;
   } catch (error) {
-    if (error instanceof userRepository.UserExistsError) {
+    if (error instanceof UserExistsError) {
       throw error;
     }
-    throw new Error("Registration failed: " + error.message);
+    throw new Error('Registration failed: ' + error.message);
   }
 }
 
 async function login(username, password) {
   try {
     if (!username || !password) {
-      throw new Error("Username and password are required");
+      throw new Error('Username and password are required');
     }
 
-    let user = await userRepository.findUserByUsername(username);
+    let user = await findUserByUsername(username);
     if (!user) {
-      throw new Error("Invalid username or password");
+      throw new Error('Invalid username or password');
     }
 
     let isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      throw new Error("Invalid username or password");
+      throw new Error('Invalid username or password');
     }
 
     let token = generateToken(user);
     return { user, token };
   } catch (error) {
-    throw new Error("Login failed: " + error.message);
+    throw new Error('Login failed: ' + error.message);
   }
 }
 
-module.exports = { register, login };
+export default { register, login };

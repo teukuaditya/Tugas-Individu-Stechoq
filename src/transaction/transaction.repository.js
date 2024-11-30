@@ -1,4 +1,4 @@
-let prisma = require("../db");
+import prisma from '../db/index.js'; 
 
 async function createTransaction(userId, itemId, quantityBorrowed) {
   try {
@@ -81,10 +81,12 @@ async function updateTransactionStatus(transactionId, status, timeStampField) {
   }
 }
 
-module.exports = {
+export default {
   createTransaction,
   findTransactions,
   findTransactionsByUserId,
   findTransactionById,
   updateTransactionStatus,
 };
+
+

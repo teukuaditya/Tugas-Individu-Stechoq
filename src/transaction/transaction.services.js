@@ -1,6 +1,6 @@
-const { item } = require("../db");
-let transactionRepository = require("./transaction.repository");
-let itemRepository = require("../item/item.repository");
+import prisma from '../db/index.js';  // Mengimpor prisma dari db.js
+import transactionRepository from './transaction.repository.js'; // pastikan menggunakan .js
+import itemRepository from '../item/item.repository.js';  // pastikan menggunakan .js
 
 async function borrowItem(userId, itemId, quantityBorrowed) {
   let newTransaction = await transactionRepository.createTransaction(
@@ -52,7 +52,7 @@ async function verifyTransaction(transactionId, status) {
 
     let newQuantity = item.quantity - transaction.quantityBorrowed;
     if (newQuantity < 0) {
-      throw new Error("Insuficient quantity");
+      throw new Error("Insufficient quantity");
     }
 
     await itemRepository.updateItemQuantity(item.id, newQuantity);
@@ -82,7 +82,7 @@ async function returnItem(transactionId) {
   await itemRepository.updateItemQuantity(item.id, newQuantity);
 }
 
-module.exports = {
+export default {
   borrowItem,
   getAllTransactions,
   getTransactionsByUserId,
