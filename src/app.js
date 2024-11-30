@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://inventory-management-frontend-pi.vercel.app/', // Ganti dengan URL frontend Anda
+  origin: 'https://inventory-management-frontend-pi.vercel.app/', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
